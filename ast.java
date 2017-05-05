@@ -273,7 +273,7 @@ class IdExpr extends Expr {
     }
 
     public String loadValueInto(String register) {
-        return "lw " + register + ", " + this.varName + "\n";
+        return "\nlw " + register + ", " + this.varName + "\n";
     }
 }
 
@@ -285,7 +285,7 @@ class IntExpr extends Expr {
     }
 
     public String codeGen() {
-        return "addi $t7, $zero, 12\n";
+        return "\naddi $t7, $zero, " + varName + "\n";
     }
 
     public String getName() {
@@ -293,7 +293,7 @@ class IntExpr extends Expr {
     }
 
     public String loadValueInto(String register) {
-        return "lw " + register + ", " + this.varName + "\n";
+        return "\naddi " + register + ", $zero, " + this.varName + "\n";
     }
 }
 
@@ -307,5 +307,47 @@ class WhileStmt extends Statement {
 
     public String getName() {
         return "";
+    }
+}
+
+class Term extends Expr {
+    String varName;
+    Expr e;
+
+    public Term(Expr e) {
+        this.e = e;
+    }
+
+    public String loadValueInto(String register){
+        return e.loadValueInto(register);
+    }
+
+    public String codeGen(){
+        return e.codeGen();
+    }
+
+    public String getName(){
+        return e.getName();
+    }
+}
+
+class Ef extends Expr {
+    String varName;
+    Expr e;
+
+    public Ef (Expr e) {
+        this.e = e;
+    }
+
+    public String loadValueInto(String register){
+        return e.loadValueInto(register);
+    }
+
+    public String codeGen(){
+        return e.codeGen();
+    }
+
+    public String getName(){
+        return e.getName();
     }
 }

@@ -51,6 +51,8 @@ non terminal Statements         stmts;
 non terminal WriteStatement     writeStmt;
 non terminal ReadStatement      readStmt;
 non terminal Expr               expr;
+non terminal Term               term;
+non terminal Ef                 ef;
 
 start with program;
 
@@ -108,23 +110,38 @@ stmt            ::= variable:v
                 :}
                 ;
 
-expr            ::= LP expr:e1 SUB expr:e2 RP
+expr            ::= expr:e1 SUB term:e2
                 {:
                     System.out.println("In SUB");
                     RESULT = new SubExpr(e1, e2);
                 :}
+                | term:t 
+                {:
+                    RESULT = t;
+                :}
+                ;
+
+term            ::= ef:f
+                {:
+                    RESULT = new Term(f);
+                :}
+                ;
+
+ef              ::= LP expr:e RP
+                {:
+                    RESULT = new Ef(e);
+                :}
                 | ID:id
                 {:
                     System.out.println("In ID");
-                    RESULT = new IdExpr(id);
+                    RESULT = new Ef(new IdExpr(id));
                 :}
                 | INTLITERAL:i
                 {:
                     System.out.println("In INT");
-                    RESULT = new IntExpr(i);
+                    RESULT = new Ef(new IntExpr(i));
                 :}
                 ;
-
 
 variable        ::= ID:id EQ expr:e SEM
                 {: 
