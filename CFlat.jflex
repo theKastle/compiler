@@ -56,13 +56,15 @@ class CharNum {
 }
 %%
 
+LineTerminator = \r|\n|\r\n
 DIGIT=        [0-9]
-WHITESPACE=   [\040\t]
+WHITESPACE=   {LineTerminator} | [\040\t]
 LETTER=       [a-zA-Z]
 ESCAPEDCHAR=   [nt'\"?\\]
 NOTNEWLINEORESCAPEDCHAR=   [^\nnt'\"?\\]
 NOTNEWLINEORQUOTE= [^\n\"]
 NOTNEWLINEORQUOTEORESCAPE= [^\n\"\\]
+
 
 %implements java_cup.runtime.Scanner
 %function next_token
@@ -116,6 +118,11 @@ return new Symbol(sym.EOF);
             return S;
           } 
 
+"*"       { Symbol S = new Symbol(sym.MUL, new TokenVal(yyline+1, CharNum.num));
+            CharNum.num++;
+            return S;
+          } 
+
 ";"       { Symbol S = new Symbol(sym.SEM, new TokenVal(yyline+1, CharNum.num));
             CharNum.num++;
             return S;
@@ -151,13 +158,7 @@ return new Symbol(sym.EOF);
           }
 
           
-\"({NOTNEWLINEORQUOTEORESCAPE}|\\{ESCAPEDCHAR})*\" {
-            String strVal = yytext();
-            Symbol S = new Symbol(sym.STRINGLITERAL,
-                             new StrLitTokenVal(yyline+1, CharNum.num, strVal));
-            CharNum.num += yytext().length();
-            return S;
-          }
+
           
 
     

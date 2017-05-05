@@ -37,6 +37,7 @@ terminal                WHILE;
 terminal                DO;
 terminal                LP;
 terminal                RP;
+terminal                MUL;
 
 /* Nonterminals
  *
@@ -124,6 +125,10 @@ expr            ::= expr:e1 SUB term:e2
 term            ::= ef:f
                 {:
                     RESULT = new Term(f);
+                :}
+                | term:t MUL ef:e 
+                {:
+                    RESULT = new MulExpr(t, e);
                 :}
                 ;
 

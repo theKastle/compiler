@@ -1,1 +1,10 @@
-begin a = 5; b = 7; while a do begin c = 8; write c; a = a - 1; end end
+begin 
+read n;
+f = 1; 
+while n do 
+    begin 
+    f = f * n;
+    n = n - 1;
+    end 
+    write f;
+end

@@ -117,7 +117,7 @@ class Variable extends Statement {
         this.varName = id.idVal;
         System.out.println("The lhs varName  = " + this.varName);
 
-        if (!(val instanceof SubExpr)) {
+        if (!(val instanceof SubExpr || val instanceof MulExpr)) {
             this.varValue = val.getName();
         } else {
             this.rhs = val;
@@ -260,13 +260,14 @@ class SubExpr extends Expr {
     }
 }
 
-class MulExpr extends Expr {
+class MulExpr extends Term {
 
     String varName;
     Expr id1;
     Expr id2;
 
     public MulExpr(Expr e1, Expr e2) {
+        super(e1);
         id1 = e1;
         if (!(e1 instanceof IntExpr)) {
             varName = e1.getName();
@@ -324,6 +325,7 @@ class IntExpr extends Expr {
 
     public IntExpr(IntLitTokenVal i) {
         varName = "" + i.intVal; // .toString();
+        System.out.println("INTEXPR -- " + this.varName);
     }
 
     public String codeGen() {

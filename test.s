@@ -1,36 +1,45 @@
 .data 
- b: .word 0 
- c: .word 0 
- a: .word 0 
+ n: .word 0 
+ f: .word 0 
   
  .text  
- addi $t0, $zero, 5 
- sw $t0, a
-addi $t0, $zero, 7 
- sw $t0, b
+ 
+ li $v0, 5 
+ syscall 
+ sw $v0, n 
+ addi $t0, $zero, 1 
+ sw $t0, f
 while:
 
-lw $t0, a
+lw $t0, n
 
 blt $t0, 1, exit
-addi $t0, $zero, 8 
- sw $t0, c
 
- li $v0, 1 
- lw $a0, c 
- syscall 
+
+
+lw $t0, f
+
+lw $t1, n
+mul $t2, $t0, $t1 
+ sw $t2, f
+lw $t2, f
+addi $t0, $t2, 0 
+ sw $t0, f
 
 
 addi $t7, $zero, 1
 
-lw $t0, a
+lw $t0, n
 
 addi $t1, $zero, 1
 sub $t2, $t0, $t1 
- sw $t2, a
-lw $t2, a
+ sw $t2, n
+lw $t2, n
 addi $t0, $t2, 0 
- sw $t0, a
+ sw $t0, n
 
 j while
 exit: 
+ li $v0, 1 
+ lw $a0, f 
+ syscall 

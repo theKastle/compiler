@@ -24,6 +24,7 @@ public interface sym {
   public static final int error = 1;
   public static final int SEM = 13;
   public static final int EQ = 9;
+  public static final int MUL = 18;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -42,7 +43,8 @@ public interface sym {
   "WHILE",
   "DO",
   "LP",
-  "RP"
+  "RP",
+  "MUL"
   };
 }
 

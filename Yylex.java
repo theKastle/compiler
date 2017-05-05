@@ -87,12 +87,12 @@ class Yylex implements java_cup.runtime.Scanner {
    * Translates characters to character classes
    */
   private static final String ZZ_CMAP_PACKED = 
-    "\11\0\1\2\1\6\25\0\1\2\1\0\1\7\1\33\3\0\1\4"+
-    "\1\30\1\31\3\0\1\26\1\0\1\32\12\1\1\0\1\27\1\0"+
-    "\1\25\1\0\1\4\1\0\32\3\1\0\1\10\2\0\1\3\1\0"+
-    "\1\21\1\11\1\3\1\16\1\12\1\3\1\13\1\22\1\14\2\3"+
-    "\1\23\1\3\1\15\1\24\2\3\1\20\1\3\1\5\2\3\1\17"+
-    "\3\3\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uff95\0";
+    "\11\0\1\1\1\2\2\0\1\1\22\0\1\1\1\0\1\0\1\31"+
+    "\3\0\1\0\1\26\1\27\1\24\2\0\1\23\1\0\1\30\12\3"+
+    "\1\0\1\25\1\0\1\22\1\0\1\0\1\0\32\4\1\0\1\0"+
+    "\2\0\1\4\1\0\1\16\1\6\1\4\1\13\1\7\1\4\1\10"+
+    "\1\17\1\11\2\4\1\20\1\4\1\12\1\21\2\4\1\15\1\4"+
+    "\1\5\2\4\1\14\3\4\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uffff\0\uff95\0";
 
   /** 
    * Translates characters to character classes
@@ -105,13 +105,12 @@ class Yylex implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\1\0\1\1\1\2\1\3\1\4\1\0\5\3\1\5"+
-    "\1\6\1\7\1\10\1\11\1\0\1\12\1\13\1\0"+
-    "\2\3\1\14\4\3\1\15\6\3\1\16\1\17\1\20"+
-    "\1\21";
+    "\1\0\1\1\1\2\1\3\6\4\1\5\1\6\1\7"+
+    "\1\10\1\11\1\12\1\0\1\13\2\4\1\14\4\4"+
+    "\1\15\6\4\1\16\1\17\1\20\1\21";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[38];
+    int [] result = new int[36];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -136,14 +135,14 @@ class Yylex implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\34\0\70\0\124\0\160\0\214\0\250\0\304"+
-    "\0\340\0\374\0\u0118\0\160\0\160\0\160\0\160\0\160"+
-    "\0\u0134\0\u0150\0\160\0\u016c\0\u0188\0\u01a4\0\124\0\u01c0"+
-    "\0\u01dc\0\u01f8\0\u0214\0\124\0\u0230\0\u024c\0\u0268\0\u0284"+
-    "\0\u02a0\0\u02bc\0\124\0\124\0\124\0\124";
+    "\0\0\0\32\0\32\0\64\0\116\0\150\0\202\0\234"+
+    "\0\266\0\320\0\352\0\352\0\352\0\352\0\352\0\352"+
+    "\0\u0104\0\u011e\0\u0138\0\u0152\0\116\0\u016c\0\u0186\0\u01a0"+
+    "\0\u01ba\0\116\0\u01d4\0\u01ee\0\u0208\0\u0222\0\u023c\0\u0256"+
+    "\0\116\0\116\0\116\0\116";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[38];
+    int [] result = new int[36];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -166,37 +165,22 @@ class Yylex implements java_cup.runtime.Scanner {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\0\1\2\1\3\1\4\1\0\1\4\1\5\1\6"+
-    "\1\0\1\7\1\10\3\4\1\11\1\12\1\13\4\4"+
-    "\1\14\1\15\1\16\1\17\1\20\1\21\1\22\1\0"+
-    "\1\2\34\0\1\3\32\0\1\4\1\0\1\4\1\0"+
-    "\1\4\3\0\14\4\43\0\6\6\1\0\1\23\1\24"+
-    "\23\6\1\0\1\4\1\0\1\4\1\0\1\4\3\0"+
-    "\1\4\1\25\12\4\10\0\1\4\1\0\1\4\1\0"+
-    "\1\4\3\0\4\4\1\26\7\4\10\0\1\4\1\0"+
-    "\1\4\1\0\1\4\3\0\13\4\1\27\10\0\1\4"+
-    "\1\0\1\4\1\0\1\4\3\0\7\4\1\30\1\4"+
-    "\1\31\2\4\10\0\1\4\1\0\1\4\1\0\1\4"+
-    "\3\0\1\4\1\32\12\4\41\0\1\22\1\0\6\22"+
-    "\1\0\25\22\4\0\2\6\1\0\2\6\4\0\1\6"+
-    "\17\0\1\4\1\0\1\4\1\0\1\4\3\0\2\4"+
-    "\1\33\11\4\10\0\1\4\1\0\1\4\1\0\1\4"+
-    "\3\0\5\4\1\34\6\4\10\0\1\4\1\0\1\4"+
-    "\1\0\1\4\3\0\3\4\1\35\10\4\10\0\1\4"+
-    "\1\0\1\4\1\0\1\4\3\0\3\4\1\36\10\4"+
-    "\10\0\1\4\1\0\1\4\1\0\1\4\3\0\10\4"+
-    "\1\37\3\4\10\0\1\4\1\0\1\4\1\0\1\4"+
-    "\3\0\3\4\1\40\10\4\10\0\1\4\1\0\1\4"+
-    "\1\0\1\41\3\0\14\4\10\0\1\4\1\0\1\4"+
-    "\1\0\1\4\3\0\12\4\1\42\1\4\10\0\1\4"+
-    "\1\0\1\4\1\0\1\4\3\0\5\4\1\43\6\4"+
-    "\10\0\1\4\1\0\1\4\1\0\1\4\3\0\4\4"+
-    "\1\44\7\4\10\0\1\4\1\0\1\4\1\0\1\4"+
-    "\3\0\1\4\1\45\12\4\10\0\1\4\1\0\1\4"+
-    "\1\0\1\4\3\0\1\4\1\46\12\4\7\0";
+    "\1\0\1\2\1\3\1\4\2\5\1\6\1\7\3\5"+
+    "\1\10\1\11\1\12\4\5\1\13\1\14\1\15\1\16"+
+    "\1\17\1\20\1\21\1\22\1\0\2\2\32\0\1\4"+
+    "\31\0\17\5\13\0\4\5\1\23\12\5\13\0\7\5"+
+    "\1\24\7\5\13\0\16\5\1\25\13\0\12\5\1\26"+
+    "\1\5\1\27\2\5\13\0\4\5\1\30\12\5\72\0"+
+    "\1\22\1\0\2\22\1\0\27\22\3\0\5\5\1\31"+
+    "\11\5\13\0\10\5\1\32\6\5\13\0\6\5\1\33"+
+    "\10\5\13\0\6\5\1\34\10\5\13\0\13\5\1\35"+
+    "\3\5\13\0\6\5\1\36\10\5\13\0\2\5\1\37"+
+    "\14\5\13\0\15\5\1\40\1\5\13\0\10\5\1\41"+
+    "\6\5\13\0\7\5\1\42\7\5\13\0\4\5\1\43"+
+    "\12\5\13\0\4\5\1\44\12\5\10\0";
 
   private static int [] zzUnpackTrans() {
-    int [] result = new int[728];
+    int [] result = new int[624];
     int offset = 0;
     offset = zzUnpackTrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -234,11 +218,10 @@ class Yylex implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\3\1\1\11\1\0\5\1\5\11\1\0\1\1"+
-    "\1\11\1\0\22\1";
+    "\1\0\11\1\6\11\1\0\23\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[38];
+    int [] result = new int[36];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -334,7 +317,7 @@ class Yylex implements java_cup.runtime.Scanner {
     char [] map = new char[0x110000];
     int i = 0;  /* index in packed string  */
     int j = 0;  /* index in unpacked array */
-    while (i < 136) {
+    while (i < 142) {
       int  count = packed.charAt(i++);
       char value = packed.charAt(i++);
       do map[j++] = value; while (--count > 0);
@@ -682,6 +665,14 @@ class Yylex implements java_cup.runtime.Scanner {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
+            { CharNum.num += yytext().length();
+            }
+          case 18: break;
+          case 2: 
+            { CharNum.num = 1;
+            }
+          case 19: break;
+          case 3: 
             { double val = Double.parseDouble(yytext());
             int intVal;
         
@@ -693,20 +684,12 @@ class Yylex implements java_cup.runtime.Scanner {
             CharNum.num += yytext().length();
             return S;
             }
-          case 18: break;
-          case 2: 
-            { CharNum.num += yytext().length();
-            }
-          case 19: break;
-          case 3: 
+          case 20: break;
+          case 4: 
             { Symbol S = new Symbol(sym.ID, 
                              new IdTokenVal(yyline+1, CharNum.num, yytext()));
             CharNum.num += yytext().length();
             return S;
-            }
-          case 20: break;
-          case 4: 
-            { CharNum.num = 1;
             }
           case 21: break;
           case 5: 
@@ -722,34 +705,32 @@ class Yylex implements java_cup.runtime.Scanner {
             }
           case 23: break;
           case 7: 
-            { Symbol S = new Symbol(sym.SEM, new TokenVal(yyline+1, CharNum.num));
+            { Symbol S = new Symbol(sym.MUL, new TokenVal(yyline+1, CharNum.num));
             CharNum.num++;
             return S;
             }
           case 24: break;
           case 8: 
-            { Symbol S = new Symbol(sym.LP, new TokenVal(yyline+1, CharNum.num));
+            { Symbol S = new Symbol(sym.SEM, new TokenVal(yyline+1, CharNum.num));
             CharNum.num++;
             return S;
             }
           case 25: break;
           case 9: 
-            { Symbol S = new Symbol(sym.RP, new TokenVal(yyline+1, CharNum.num));
+            { Symbol S = new Symbol(sym.LP, new TokenVal(yyline+1, CharNum.num));
             CharNum.num++;
             return S;
             }
           case 26: break;
           case 10: 
-            { // comment - ignore. Note: don't need to update char num 
-            // since everything to end of line will be ignored
+            { Symbol S = new Symbol(sym.RP, new TokenVal(yyline+1, CharNum.num));
+            CharNum.num++;
+            return S;
             }
           case 27: break;
           case 11: 
-            { String strVal = yytext();
-            Symbol S = new Symbol(sym.STRINGLITERAL,
-                             new StrLitTokenVal(yyline+1, CharNum.num, strVal));
-            CharNum.num += yytext().length();
-            return S;
+            { // comment - ignore. Note: don't need to update char num 
+            // since everything to end of line will be ignored
             }
           case 28: break;
           case 12: 
