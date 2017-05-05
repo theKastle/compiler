@@ -6,5 +6,4 @@ while n do
     f = f * n;
     n = n - 1;
     end 
-    write f;
-end
+    write f; end
