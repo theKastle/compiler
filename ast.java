@@ -24,32 +24,28 @@ class ProgramNode extends ASTnode {
     }
 
     public void codeGen() {
-        String declares = "";
-        Iterable<Statement> iterable = this.statements;
-        List<Statement> vars = new ArrayList<Statement>();
+        // String declares = "";
+        // List<Statement> vars = new ArrayList<Statement>();
 
-        System.out.println("In Program CodeGen");
-        System.out.println(statements.size());
+        // for (int i = statements.size() - 1; i >= 0; i--) {
+        //     Statement n = statements.get(i);
+        //     System.out.println(n.getName());
+        //     if (n instanceof Variable || n instanceof ReadStatement) {
+        //         System.out.println(n.getName() + " --- ");
+        //         boolean remove = vars.removeIf(e -> Objects.equals(e.getName(), n.getName()));
 
-        for (int i = statements.size() - 1; i >= 0; i--) {
-            Statement n = statements.get(i);
-            System.out.println(n.getName());
-            if (n instanceof Variable || n instanceof ReadStatement) {
-                System.out.println(n.getName() + " --- ");
-                boolean remove = vars.removeIf(e -> Objects.equals(e.getName(), n.getName()));
+        //         vars.add(n);
+        //     }
+        // }
 
-                vars.add(n);
-            }
-        }
-
-        List<String> varNames = new ArrayList<String>();
-        for (Statement n : vars) {
-            String t = n.getName();
-            // System.out.println("In Declares -- " + t);
-            varNames.add(t);
-        }
-
-        Codegen.generateDeclares(varNames);
+        // List<String> varNames = new ArrayList<String>();
+        // for (Statement n : vars) {
+        //     String t = n.getName();
+        //     // System.out.println("In Declares -- " + t);
+        //     varNames.add(t);
+        // }
+        Codegen.printGlobalVars();
+        // Codegen.generateDeclares(varNames);
         myBlock.codeGen();
     }
 
@@ -91,6 +87,10 @@ class Block extends Statement {
                 Block b = (Block) tmp;
                 b.codeGen();
             }
+            if (tmp instanceof WhileStmt) {
+                WhileStmt l = (WhileStmt) tmp;
+                l.codeGen();
+            }
         }
 
         // for (Statement n : iterable) {
@@ -123,7 +123,7 @@ class Variable extends Statement {
             this.rhs = val;
             this.varValue = "";
         }
-
+        Codegen.addVar(varName);
     }
 
     public String codeGen() {
@@ -149,9 +149,11 @@ class WriteStatement extends Statement {
 
     public WriteStatement(Expr id) {
         this.id = id.getName();
+        Codegen.addVar(this.id);
     }
 
     public String codeGen() {
+        Codegen.printVar(id);
         return "";
     }
 }
@@ -165,6 +167,7 @@ class ReadStatement extends Statement {
 
     public ReadStatement(IdTokenVal id) {
         this.id = id;
+        Codegen.addVar(id.idVal);
     }
 
     public String codeGen() {
@@ -257,11 +260,50 @@ class SubExpr extends Expr {
     }
 }
 
+class MulExpr extends Expr {
+
+    String varName;
+    Expr id1;
+    Expr id2;
+
+    public MulExpr(Expr e1, Expr e2) {
+        id1 = e1;
+        if (!(e1 instanceof IntExpr)) {
+            varName = e1.getName();
+        } else if (!(e2 instanceof IntExpr)) {
+            varName = e2.getName();
+        } else {
+            varName = "$t7";
+        }
+        id2 = e2;
+    }
+
+    public String codeGen() {
+        String e1 = this.id1.codeGen();
+        String e2 = this.id2.codeGen();
+        return e1 + e2 + this.id1.loadValueInto("$t0") + this.id2.loadValueInto("$t1") + "mul $t2, $t0, $t1 \n sw $t2, "
+                + this.varName;
+        // return "lw $t0, " + id1 + "\n lw $t1, " + id2 + "\n sub $t2, $t0, $t1 \n";
+    }
+
+    public String getName() {
+        return this.varName;
+    }
+
+    public String loadValueInto(String register) {
+        if (this.id1 instanceof IntExpr && this.id2 instanceof IntExpr) {
+            return "\naddi " + register + ", $t7, 0";
+        }
+        return "\nlw " + register + ", " + this.varName + "\n";
+    }
+}
+
 class IdExpr extends Expr {
     String varName;
 
     public IdExpr(IdTokenVal i) {
         varName = "" + i.idVal; // .toString();
+        Codegen.addVar(varName);
     }
 
     public String codeGen() {
@@ -298,10 +340,23 @@ class IntExpr extends Expr {
 }
 
 class WhileStmt extends Statement {
+
+    Expr e;
+    Statement s;
     public WhileStmt(Expr e, Statement s) {
+        this.e = e;
+        this.s = s;
     }
 
     public String codeGen() {
+        String w = "while:\n" 
+                + this.e.loadValueInto("$t0")
+                + "\nblt $t0, 1, exit\n";
+        Codegen.printMips(w);        
+        this.s.codeGen();
+        String w2 = "\nj while\n"
+                + "exit: "   ;
+        Codegen.printMips(w2);
         return "";
     }
 

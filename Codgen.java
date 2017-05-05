@@ -49,6 +49,21 @@ class Codegen {
 
     // private static int nextId = 0;
 
+    private static List<String> vars = new ArrayList<String>();
+
+    public static void addVar(String varName) {
+        boolean remove = Codegen.vars.removeIf(e -> Objects.equals(e, varName));
+        Codegen.vars.add(varName);
+    }
+
+    public static List getVars() {
+        return Codegen.vars;
+    }
+
+    public static void printGlobalVars(){
+        Codegen.generateDeclares(Codegen.vars);
+    }
+
     public static void generateDeclares(List<String> declares) {
         // System.out.println("DECLARES  == " + declares);
 
@@ -72,6 +87,10 @@ class Codegen {
 
     public static void printAssign(String as) {
         p.print(as);
+    }
+
+    public static void printMips(String w) {
+        p.print(w);
     }
 
     // public static String nextId() {

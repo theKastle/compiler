@@ -1,1 +1,1 @@
-begin a = 5; b = 9; c = b - (a - 1); write c; end
+begin a = 5; b = 7; while a do begin c = 8; write c; a = a - 1; end end
