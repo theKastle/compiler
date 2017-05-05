@@ -121,6 +121,16 @@ return new Symbol(sym.EOF);
             return S;
           } 
           
+"("       { Symbol S = new Symbol(sym.LP, new TokenVal(yyline+1, CharNum.num));
+            CharNum.num++;
+            return S;
+          } 
+
+")"       { Symbol S = new Symbol(sym.RP, new TokenVal(yyline+1, CharNum.num));
+            CharNum.num++;
+            return S;
+          } 
+
 ({LETTER}|"_")({LETTER}|{DIGIT}|"_")* {
             Symbol S = new Symbol(sym.ID, 
                              new IdTokenVal(yyline+1, CharNum.num, yytext()));

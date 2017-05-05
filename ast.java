@@ -5,7 +5,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 abstract class ASTnode {
-
 }
 
 // **********************************************************************
@@ -38,7 +37,7 @@ class ProgramNode extends ASTnode {
             if (n instanceof Variable || n instanceof ReadStatement) {
                 System.out.println(n.getName() + " --- ");
                 boolean remove = vars.removeIf(e -> Objects.equals(e.getName(), n.getName()));
-                
+
                 vars.add(n);
             }
         }
@@ -95,7 +94,7 @@ class Block extends Statement {
         }
 
         // for (Statement n : iterable) {
-            return "";
+        return "";
         // }
     }
 
@@ -107,19 +106,37 @@ class Block extends Statement {
 class Variable extends Statement {
     private String varName;
     private String varValue;
+    private Expr rhs;
 
     public String getName() {
         // System.out.println("In Variable getName  -- " + varName);
         return varName;
     }
 
-    public Variable(Expr id, Expr val) {
-        this.varName = id.getName();
-        this.varValue = val.getName();
+    public Variable(IdTokenVal id, Expr val) {
+        this.varName = id.idVal;
+        System.out.println("The lhs varName  = " + this.varName);
+
+        if (!(val instanceof SubExpr)) {
+            this.varValue = val.getName();
+        } else {
+            this.rhs = val;
+            this.varValue = "";
+        }
+
     }
 
     public String codeGen() {
-        return "addi $t0, $zero, " + varValue + " \n sw $t0, " + varName + "\n"; // varName + ": .word " + varValue + " \n ";
+        if (this.varValue != "") {
+            return "addi $t0, $zero, " + varValue + " \n sw $t0, " + varName + "\n"; // varName + ": .word " + varValue + " \n ";
+        } else {
+            System.out.println("-- SUB SUB --");
+            String executeRhs = this.rhs.codeGen();
+            String loadRhs = this.rhs.loadValueInto("$t2");
+            System.out.println("CodeGen -- The lhs varName  = " + this.varName);
+            return executeRhs + loadRhs + "addi $t0, $t2, 0 \n sw $t0, " + varName + "\n";
+        }
+
     }
 }
 
@@ -131,7 +148,7 @@ class WriteStatement extends Statement {
     }
 
     public WriteStatement(Expr id) {
-        this.id = id.codeGen();
+        this.id = id.getName();
     }
 
     public String codeGen() {
@@ -193,7 +210,9 @@ class Statements {
 }
 
 abstract class Expr {
-    String val;
+    String varName;
+
+    abstract public String loadValueInto(String register);
 
     abstract public String codeGen();
 
@@ -202,40 +221,91 @@ abstract class Expr {
 
 class SubExpr extends Expr {
 
-    String id1;
-    String id2;
+    String varName;
+    Expr id1;
+    Expr id2;
 
     public SubExpr(Expr e1, Expr e2) {
-        id1 = e1.codeGen();
-        id2 = e2.codeGen();
+        id1 = e1;
+        if (!(e1 instanceof IntExpr)) {
+            varName = e1.getName();
+        } else if (!(e2 instanceof IntExpr)) {
+            varName = e2.getName();
+        } else {
+            varName = "$t7";
+        }
+        id2 = e2;
     }
 
     public String codeGen() {
-        return "lw $t0, " + id1 + "\n lw $t1, " + id2 + "\n sub $t2, $t0, $t1 \n";
+        String e1 = this.id1.codeGen();
+        String e2 = this.id2.codeGen();
+        return e1 + e2 + this.id1.loadValueInto("$t0") + this.id2.loadValueInto("$t1") + "sub $t2, $t0, $t1 \n sw $t2, "
+                + this.varName;
+        // return "lw $t0, " + id1 + "\n lw $t1, " + id2 + "\n sub $t2, $t0, $t1 \n";
+    }
+
+    public String getName() {
+        return this.varName;
+    }
+
+    public String loadValueInto(String register) {
+        if (this.id1 instanceof IntExpr && this.id2 instanceof IntExpr) {
+            return "\naddi " + register + ", $t7, 0";
+        }
+        return "\nlw " + register + ", " + this.varName + "\n";
+    }
+}
+
+class IdExpr extends Expr {
+    String varName;
+
+    public IdExpr(IdTokenVal i) {
+        varName = "" + i.idVal; // .toString();
+    }
+
+    public String codeGen() {
+        return "\n";
+    }
+
+    public String getName() {
+        return varName;
+    }
+
+    public String loadValueInto(String register) {
+        return "lw " + register + ", " + this.varName + "\n";
+    }
+}
+
+class IntExpr extends Expr {
+    String varName;
+
+    public IntExpr(IntLitTokenVal i) {
+        varName = "" + i.intVal; // .toString();
+    }
+
+    public String codeGen() {
+        return "addi $t7, $zero, 12\n";
+    }
+
+    public String getName() {
+        return varName;
+    }
+
+    public String loadValueInto(String register) {
+        return "lw " + register + ", " + this.varName + "\n";
+    }
+}
+
+class WhileStmt extends Statement {
+    public WhileStmt(Expr e, Statement s) {
+    }
+
+    public String codeGen() {
+        return "";
     }
 
     public String getName() {
         return "";
-    }
-
-}
-
-class PrimaryExpr extends Expr {
-    String id;
-
-    public PrimaryExpr(IntLitTokenVal i) {
-        id = "" + i.intVal; // .toString();
-    }
-
-    public PrimaryExpr(IdTokenVal id) {
-        this.id = id.idVal;
-    }
-
-    public String codeGen() {
-        return id;
-    }
-
-    public String getName() {
-        return id;
     }
 }

@@ -35,6 +35,8 @@ terminal                SUB;
 terminal                SEM;
 terminal                WHILE;
 terminal                DO;
+terminal                LP;
+terminal                RP;
 
 /* Nonterminals
  *
@@ -106,22 +108,25 @@ stmt            ::= variable:v
                 :}
                 ;
 
-expr            ::= expr:e1 SUB expr:e2 SEM
+expr            ::= LP expr:e1 SUB expr:e2 RP
                 {:
+                    System.out.println("In SUB");
                     RESULT = new SubExpr(e1, e2);
                 :}
                 | ID:id
                 {:
-                    RESULT = new PrimaryExpr(id);
+                    System.out.println("In ID");
+                    RESULT = new IdExpr(id);
                 :}
                 | INTLITERAL:i
                 {:
-                    RESULT = new PrimaryExpr(i);
+                    System.out.println("In INT");
+                    RESULT = new IntExpr(i);
                 :}
                 ;
 
 
-variable        ::= expr:id EQ expr:e SEM
+variable        ::= ID:id EQ expr:e SEM
                 {: 
                     System.out.println("In Variable");
                     RESULT = new Variable(id, e);
