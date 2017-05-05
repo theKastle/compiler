@@ -1,0 +1,144 @@
+/**********************************************************************
+ Java CUP specification for a parser for CFlat programs
+ **********************************************************************/
+
+import java_cup.runtime.*;
+import java.util.*;
+
+/* The code below redefines method syntax_error to give better error messages
+ * than just "Syntax error"
+ */
+parser code {:
+
+public void syntax_error(Symbol currToken) {
+ 
+    System.exit(-1);
+}
+:};
+
+
+/* Terminals (tokens returned by the scanner) */
+
+terminal TokenVal       TRUE;
+terminal TokenVal       FALSE;
+
+terminal IdTokenVal     ID;
+terminal IntLitTokenVal INTLITERAL;
+terminal StrLitTokenVal STRINGLITERAL;
+
+terminal                BEGIN;
+terminal                END;
+terminal                EQ;
+terminal                WRITE;
+terminal                READ;
+terminal                SUB;
+terminal                SEM;
+terminal                WHILE;
+terminal                DO;
+
+/* Nonterminals
+ *
+ * NOTE: You will need to add more nonterminals to this list as you
+ *       add productions to the grammar below.
+ */
+non terminal ProgramNode        program;
+non terminal Block              block;
+non terminal Variable           variable;
+non terminal Statement          stmt;
+non terminal Statements         stmts;
+non terminal WriteStatement     writeStmt;
+non terminal ReadStatement      readStmt;
+non terminal Expr               expr;
+
+start with program;
+
+
+/* Grammar with actions
+ *
+ * NOTE: add more grammar rules below
+ */
+program         ::= block:d
+                {: 
+                    // System.out.println("In Program");
+                    RESULT = new ProgramNode(d);
+                :}
+                ;
+
+block           ::= BEGIN stmts:ss END
+                {:  //System.out.println("In Block");
+                    RESULT = new Block(ss);
+                :}
+                ;
+
+stmts           ::= stmt:s 
+                {:
+                    //System.out.println("In Statements -- Single");
+                    RESULT = new Statements(s);
+                :}
+                | stmt:s stmts:sl
+                {:
+                    //System.out.println("In Statements");
+                    sl.add(s);
+                    RESULT = sl;
+                :}
+                ;
+
+stmt            ::= variable:v
+                {:
+                    //System.out.println("In Statement");
+                    RESULT = v;
+                :}
+                | writeStmt:w 
+                {:
+                    RESULT = w;
+                :}
+                | readStmt:r 
+                {:
+                    RESULT = r;
+                :}
+                | block:b 
+                {:
+                    RESULT = b;
+                :}
+                | WHILE expr:e DO stmt:s 
+                {:
+                    RESULT = new WhileStmt(e, s);
+                :}
+                ;
+
+expr            ::= expr:e1 SUB expr:e2 SEM
+                {:
+                    RESULT = new SubExpr(e1, e2);
+                :}
+                | ID:id
+                {:
+                    RESULT = new PrimaryExpr(id);
+                :}
+                | INTLITERAL:i
+                {:
+                    RESULT = new PrimaryExpr(i);
+                :}
+                ;
+
+
+variable        ::= expr:id EQ expr:e SEM
+                {: 
+                    System.out.println("In Variable");
+                    RESULT = new Variable(id, e);
+                :}
+                ;
+
+
+
+writeStmt       ::= WRITE expr:id SEM
+                {:
+                    RESULT = new WriteStatement(id);
+                :}
+                ;
+
+readStmt       ::= READ ID:id SEM
+                {:
+                    RESULT = new ReadStatement(id);
+                :}
+                ;
+                

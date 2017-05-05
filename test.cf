@@ -1,0 +1,1 @@
+begin a = 9; b = 7; begin a = 2; write a; end write a; end
