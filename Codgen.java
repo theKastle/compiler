@@ -60,7 +60,7 @@ class Codegen {
         return Codegen.vars;
     }
 
-    public static void printGlobalVars(){
+    public static void printGlobalVars() {
         Codegen.generateDeclares(Codegen.vars);
     }
 
@@ -91,6 +91,14 @@ class Codegen {
 
     public static void printMips(String w) {
         p.print(w);
+    }
+
+    public static String pushStack(String register) {
+        return "addi $sp, $sp, -4  \n" + "sw " + register + ", 0($sp)\n";
+    }
+
+    public static String popStack(String register) {
+        return "lw " + register + ", 0($sp) \n addi $sp, $sp, 4\n";
     }
 
     // public static String nextId() {

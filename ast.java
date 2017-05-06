@@ -132,9 +132,10 @@ class Variable extends Statement {
         } else {
             System.out.println("-- SUB SUB --");
             String executeRhs = this.rhs.codeGen();
-            String loadRhs = this.rhs.loadValueInto("$t2");
+            // String loadRhs = this.rhs.loadValueInto("$t2");
+            String pop = Codegen.popStack("$t2");
             System.out.println("CodeGen -- The lhs varName  = " + this.varName);
-            return executeRhs + loadRhs + "addi $t0, $t2, 0 \n sw $t0, " + varName + "\n";
+            return executeRhs + pop + "addi $t0, $t2, 0 \n sw $t0, " + varName + "\n";
         }
 
     }
@@ -243,9 +244,10 @@ class SubExpr extends Expr {
     public String codeGen() {
         String e1 = this.id1.codeGen();
         String e2 = this.id2.codeGen();
-        return e1 + e2 + this.id1.loadValueInto("$t0") + this.id2.loadValueInto("$t1") + "sub $t2, $t0, $t1 \n sw $t2, "
-                + this.varName;
-        // return "lw $t0, " + id1 + "\n lw $t1, " + id2 + "\n sub $t2, $t0, $t1 \n";
+        String pope1 = Codegen.popStack("$t1");
+        String pope2 = Codegen.popStack("$t0");
+
+        return e1 + e2 + pope1 + pope2 + "sub $t2, $t0, $t1 \n" + Codegen.pushStack("$t2");
     }
 
     public String getName() {
@@ -280,10 +282,14 @@ class MulExpr extends Term {
     }
 
     public String codeGen() {
-        String e1 = this.id1.codeGen();
-        String e2 = this.id2.codeGen();
-        return e1 + e2 + this.id1.loadValueInto("$t0") + this.id2.loadValueInto("$t1") + "mul $t2, $t0, $t1 \n sw $t2, "
-                + this.varName;
+        String e1 = this.id1.codeGen();  // 4
+        String e2 = this.id2.codeGen();  // a 4
+        String pope1 = Codegen.popStack("$t1"); // t1 = a 
+        String pope2 = Codegen.popStack("$t0"); // t0 = 4
+
+        return e1 + e2 + pope1 + pope2 + "mul $t2, $t0, $t1 \n" + Codegen.pushStack("$t2");
+
+        // sw $t2, "                 + this.varName;
         // return "lw $t0, " + id1 + "\n lw $t1, " + id2 + "\n sub $t2, $t0, $t1 \n";
     }
 
@@ -308,7 +314,7 @@ class IdExpr extends Expr {
     }
 
     public String codeGen() {
-        return "\n";
+        return "\nlw $t7, " + this.varName + "\n" + Codegen.pushStack("$t7");
     }
 
     public String getName() {
@@ -329,7 +335,7 @@ class IntExpr extends Expr {
     }
 
     public String codeGen() {
-        return "\naddi $t7, $zero, " + varName + "\n";
+        return "\naddi $t7, $zero, " + varName + "\n" + Codegen.pushStack("$t7");
     }
 
     public String getName() {
@@ -345,19 +351,17 @@ class WhileStmt extends Statement {
 
     Expr e;
     Statement s;
+
     public WhileStmt(Expr e, Statement s) {
         this.e = e;
         this.s = s;
     }
 
     public String codeGen() {
-        String w = "while:\n" 
-                + this.e.loadValueInto("$t0")
-                + "\nblt $t0, 1, exit\n";
-        Codegen.printMips(w);        
+        String w = "while:\n" + this.e.loadValueInto("$t0") + "\nblt $t0, 1, exit\n";
+        Codegen.printMips(w);
         this.s.codeGen();
-        String w2 = "\nj while\n"
-                + "exit: "   ;
+        String w2 = "\nj while\n" + "exit: ";
         Codegen.printMips(w2);
         return "";
     }
@@ -375,15 +379,15 @@ class Term extends Expr {
         this.e = e;
     }
 
-    public String loadValueInto(String register){
+    public String loadValueInto(String register) {
         return e.loadValueInto(register);
     }
 
-    public String codeGen(){
+    public String codeGen() {
         return e.codeGen();
     }
 
-    public String getName(){
+    public String getName() {
         return e.getName();
     }
 }
@@ -392,19 +396,19 @@ class Ef extends Expr {
     String varName;
     Expr e;
 
-    public Ef (Expr e) {
+    public Ef(Expr e) {
         this.e = e;
     }
 
-    public String loadValueInto(String register){
+    public String loadValueInto(String register) {
         return e.loadValueInto(register);
     }
 
-    public String codeGen(){
+    public String codeGen() {
         return e.codeGen();
     }
 
-    public String getName(){
+    public String getName() {
         return e.getName();
     }
 }
