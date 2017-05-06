@@ -128,6 +128,11 @@ return new Symbol(sym.EOF);
             return S;
           } 
 
+"/"       { Symbol S = new Symbol(sym.DIV, new TokenVal(yyline+1, CharNum.num));
+            CharNum.num++;
+            return S;
+          }
+
 ";"       { Symbol S = new Symbol(sym.SEM, new TokenVal(yyline+1, CharNum.num));
             CharNum.num++;
             return S;

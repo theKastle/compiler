@@ -39,6 +39,7 @@ terminal                LP;
 terminal                RP;
 terminal                MUL;
 terminal                ADD;
+terminal                DIV;
 
 /* Nonterminals
  *
@@ -135,6 +136,10 @@ term            ::= ef:f
                 | term:t MUL ef:e 
                 {:
                     RESULT = new MulExpr(t, e);
+                :}
+                | term:t DIV ef:e 
+                {:
+                    RESULT = new DivExpr(t, e);
                 :}
                 ;
 

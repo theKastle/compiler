@@ -1,7 +1,0 @@
-begin
-    a = 1;
-    b = 2;
-    a = (a + 2) - (b + (1 - b));
-    write a;
-    write b;
-end
