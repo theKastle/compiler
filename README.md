@@ -50,3 +50,15 @@ begin
     write fact;
 end
 ```
+
+4. Unary Operator
+```
+begin
+    a = 2;
+    b = 7;
+    write 7 + ( - 5 );
+    write - ( - b ) ;
+    write - ( - 1 + - 4 + a );
+    write (a * - b) ;
+end
+```

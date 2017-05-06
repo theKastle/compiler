@@ -59,6 +59,7 @@ non terminal ReadStatement      readStmt;
 non terminal Expr               expr;
 non terminal Term               term;
 non terminal Ef                 ef;
+non terminal Pee                pee;
 
 start with program;
 
@@ -136,23 +137,34 @@ expr            ::= expr:e1 SUB term:e2
                 :}
                 ;
 
-term            ::= ef:f
+term            ::= pee:f
                 {:
                     RESULT = new Term(f);
                 :}
-                | term:t MUL ef:e 
+                | term:t MUL pee:e 
                 {:
                     RESULT = new MulExpr(t, e);
                 :}
-                | term:t DIV ef:e 
+                | term:t DIV pee:e 
                 {:
                     RESULT = new DivExpr(t, e);
                 :}
-                | term:t MOD ef:e 
+                | term:t MOD pee:e 
                 {:
                     RESULT = new ModExpr(t, e);
                 :}
                 ;
+
+pee             ::= SUB ef:e
+                {:
+                    RESULT = new Pee(e, "-");
+                :}
+                | ef:e
+                {:
+                    RESULT = new Pee(e, "");
+                :}
+                ;
+
 
 ef              ::= LP expr:e RP
                 {:

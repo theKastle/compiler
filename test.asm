@@ -1,27 +1,134 @@
 .data 
- n: .word 0 
- fact: .word 0 
+ a: .word 0 
+ b: .word 0 
   
  .text  
- 
- li $v0, 5 
- syscall 
- sw $v0, n 
- addi $t0, $zero, 1 
- sw $t0, fact
-while0:
+ addi $t0, $zero, 2 
+ sw $t0, a
+addi $t0, $zero, 7 
+ sw $t0, b
 
-lw $t0, n
-
-blt $t0, 1, exit0
-
-lw $t7, fact
+addi $t7, $zero, 7
 addi $sp, $sp, -4  
 sw $t7, 0($sp)
+lw $t2, 0($sp) 
+ addi $sp, $sp, 4
+addi $sp, $sp, -4  
+sw $t2, 0($sp)
 
-lw $t7, n
+addi $t7, $zero, 5
 addi $sp, $sp, -4  
 sw $t7, 0($sp)
+lw $t2, 0($sp) 
+ addi $sp, $sp, 4
+sub $t2, $zero, $t2
+addi $sp, $sp, -4  
+sw $t2, 0($sp)
+lw $t2, 0($sp) 
+ addi $sp, $sp, 4
+addi $sp, $sp, -4  
+sw $t2, 0($sp)
+lw $t1, 0($sp) 
+ addi $sp, $sp, 4
+lw $t0, 0($sp) 
+ addi $sp, $sp, 4
+add $t2, $t0, $t1 
+addi $sp, $sp, -4  
+sw $t2, 0($sp)
+lw $t0, 0($sp) 
+ addi $sp, $sp, 4
+
+li $v0, 1
+ add $a0, $zero, $t0
+ syscall
+
+lw $t7, b
+addi $sp, $sp, -4  
+sw $t7, 0($sp)
+lw $t2, 0($sp) 
+ addi $sp, $sp, 4
+sub $t2, $zero, $t2
+addi $sp, $sp, -4  
+sw $t2, 0($sp)
+lw $t2, 0($sp) 
+ addi $sp, $sp, 4
+sub $t2, $zero, $t2
+addi $sp, $sp, -4  
+sw $t2, 0($sp)
+lw $t0, 0($sp) 
+ addi $sp, $sp, 4
+
+li $v0, 1
+ add $a0, $zero, $t0
+ syscall
+
+addi $t7, $zero, 1
+addi $sp, $sp, -4  
+sw $t7, 0($sp)
+lw $t2, 0($sp) 
+ addi $sp, $sp, 4
+sub $t2, $zero, $t2
+addi $sp, $sp, -4  
+sw $t2, 0($sp)
+
+addi $t7, $zero, 4
+addi $sp, $sp, -4  
+sw $t7, 0($sp)
+lw $t2, 0($sp) 
+ addi $sp, $sp, 4
+sub $t2, $zero, $t2
+addi $sp, $sp, -4  
+sw $t2, 0($sp)
+lw $t1, 0($sp) 
+ addi $sp, $sp, 4
+lw $t0, 0($sp) 
+ addi $sp, $sp, 4
+add $t2, $t0, $t1 
+addi $sp, $sp, -4  
+sw $t2, 0($sp)
+
+lw $t7, a
+addi $sp, $sp, -4  
+sw $t7, 0($sp)
+lw $t2, 0($sp) 
+ addi $sp, $sp, 4
+addi $sp, $sp, -4  
+sw $t2, 0($sp)
+lw $t1, 0($sp) 
+ addi $sp, $sp, 4
+lw $t0, 0($sp) 
+ addi $sp, $sp, 4
+add $t2, $t0, $t1 
+addi $sp, $sp, -4  
+sw $t2, 0($sp)
+lw $t2, 0($sp) 
+ addi $sp, $sp, 4
+sub $t2, $zero, $t2
+addi $sp, $sp, -4  
+sw $t2, 0($sp)
+lw $t0, 0($sp) 
+ addi $sp, $sp, 4
+
+li $v0, 1
+ add $a0, $zero, $t0
+ syscall
+
+lw $t7, a
+addi $sp, $sp, -4  
+sw $t7, 0($sp)
+lw $t2, 0($sp) 
+ addi $sp, $sp, 4
+addi $sp, $sp, -4  
+sw $t2, 0($sp)
+
+lw $t7, b
+addi $sp, $sp, -4  
+sw $t7, 0($sp)
+lw $t2, 0($sp) 
+ addi $sp, $sp, 4
+sub $t2, $zero, $t2
+addi $sp, $sp, -4  
+sw $t2, 0($sp)
 lw $t1, 0($sp) 
  addi $sp, $sp, 4
 lw $t0, 0($sp) 
@@ -31,33 +138,8 @@ addi $sp, $sp, -4
 sw $t2, 0($sp)
 lw $t2, 0($sp) 
  addi $sp, $sp, 4
-addi $t0, $t2, 0 
- sw $t0, fact
-
-lw $t7, n
-addi $sp, $sp, -4  
-sw $t7, 0($sp)
-
-addi $t7, $zero, 1
-addi $sp, $sp, -4  
-sw $t7, 0($sp)
-lw $t1, 0($sp) 
- addi $sp, $sp, 4
-lw $t0, 0($sp) 
- addi $sp, $sp, 4
-sub $t2, $t0, $t1 
 addi $sp, $sp, -4  
 sw $t2, 0($sp)
-lw $t2, 0($sp) 
- addi $sp, $sp, 4
-addi $t0, $t2, 0 
- sw $t0, n
-
-j while0
-exit0: 
-lw $t7, fact
-addi $sp, $sp, -4  
-sw $t7, 0($sp)
 lw $t0, 0($sp) 
  addi $sp, $sp, 4
 

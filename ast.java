@@ -236,7 +236,6 @@ abstract class Expr {
 }
 
 class SubExpr extends Expr {
-
     String varName;
     Expr id1;
     Expr id2;
@@ -275,7 +274,6 @@ class SubExpr extends Expr {
 }
 
 class AddExpr extends Expr {
-
     String varName;
     Expr id1;
     Expr id2;
@@ -314,7 +312,6 @@ class AddExpr extends Expr {
 }
 
 class MulExpr extends Term {
-
     String varName;
     Expr id1;
     Expr id2;
@@ -357,7 +354,6 @@ class MulExpr extends Term {
 }
 
 class DivExpr extends Term {
-
     String varName;
     Expr id1;
     Expr id2;
@@ -400,7 +396,6 @@ class DivExpr extends Term {
 }
 
 class ModExpr extends Term {
-
     String varName;
     Expr id1;
     Expr id2;
@@ -451,6 +446,7 @@ class IdExpr extends Expr {
     }
 
     public String codeGen() {
+
         return "\nlw $t7, " + this.varName + "\n" + Codegen.pushStack("$t7");
     }
 
@@ -472,6 +468,7 @@ class IntExpr extends Expr {
     }
 
     public String codeGen() {
+
         return "\naddi $t7, $zero, " + varName + "\n" + Codegen.pushStack("$t7");
     }
 
@@ -573,6 +570,33 @@ class Ef extends Expr {
 
     public String codeGen() {
         return e.codeGen();
+    }
+
+    public String getName() {
+        return e.getName();
+    }
+}
+
+class Pee extends Expr {
+    String unop;
+    String varName;
+    Expr e;
+
+    public Pee(Expr e, String unop) {
+        this.e = e;
+        this.unop = unop;
+    }
+
+    public String loadValueInto(String register) {
+        return e.loadValueInto(register);
+    }
+
+    public String codeGen() {
+        String neg = "";
+        if (this.unop == "-") {
+            neg = Codegen.negate("$t2");
+        }
+        return e.codeGen() + Codegen.popStack("$t2") + neg + Codegen.pushStack("$t2");
     }
 
     public String getName() {

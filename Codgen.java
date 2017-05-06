@@ -68,6 +68,9 @@ class Codegen {
         return "lw " + register + ", 0($sp) \n addi $sp, $sp, 4\n";
     }
 
+    public static String negate(String register) {
+        return "sub " + register + ", $zero, "+ register + "\n";
+    }
     public static String nextId() {
         String t = "" + Codegen.labelId;
         Codegen.labelId += 1;
