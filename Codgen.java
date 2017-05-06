@@ -7,7 +7,7 @@ import java.util.Map;
 class Codegen {
     public static PrintWriter p = null;
 
-    // private static int nextId = 0;
+    private static int labelId = 0;
 
     private static List<String> vars = new ArrayList<String>();
 
@@ -61,11 +61,11 @@ class Codegen {
         return "lw " + register + ", 0($sp) \n addi $sp, $sp, 4\n";
     }
 
-    // public static String nextId() {
-    //     String t = "" + Codegen.nextId;
-    //     Codegen.nextId += 1;
-    //     return t;
-    // }
+    public static String nextId() {
+        String t = "" + Codegen.labelId;
+        Codegen.labelId += 1;
+        return t;
+    }
 
     // public static String currentId(){
     //     int t = Codegen.nextId;

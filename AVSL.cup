@@ -35,6 +35,8 @@ terminal                SUB;
 terminal                SEM;
 terminal                WHILE;
 terminal                DO;
+terminal                IF;
+terminal                THEN;
 terminal                LP;
 terminal                RP;
 terminal                MUL;
@@ -111,6 +113,10 @@ stmt            ::= variable:v
                 | WHILE expr:e DO stmt:s 
                 {:
                     RESULT = new WhileStmt(e, s);
+                :}
+                | IF expr:e THEN stmt:s 
+                {:
+                    RESULT = new IfStmt(e, s);
                 :}
                 ;
 

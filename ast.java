@@ -91,6 +91,10 @@ class Block extends Statement {
                 WhileStmt l = (WhileStmt) tmp;
                 l.codeGen();
             }
+            if (tmp instanceof IfStmt) {
+                IfStmt l = (IfStmt) tmp;
+                l.codeGen();
+            }
         }
 
         // for (Statement n : iterable) {
@@ -321,8 +325,8 @@ class MulExpr extends Term {
     }
 
     public String codeGen() {
-        String e1 = this.id1.codeGen();  // 4
-        String e2 = this.id2.codeGen();  // a 4
+        String e1 = this.id1.codeGen(); // 4
+        String e2 = this.id2.codeGen(); // a 4
         String pope1 = Codegen.popStack("$t1"); // t1 = a 
         String pope2 = Codegen.popStack("$t0"); // t0 = 4
 
@@ -364,8 +368,8 @@ class DivExpr extends Term {
     }
 
     public String codeGen() {
-        String e1 = this.id1.codeGen();  // 4
-        String e2 = this.id2.codeGen();  // a 4
+        String e1 = this.id1.codeGen(); // 4
+        String e2 = this.id2.codeGen(); // a 4
         String pope1 = Codegen.popStack("$t1"); // t1 = a 
         String pope2 = Codegen.popStack("$t0"); // t0 = 4
 
@@ -407,8 +411,8 @@ class ModExpr extends Term {
     }
 
     public String codeGen() {
-        String e1 = this.id1.codeGen();  // 4
-        String e2 = this.id2.codeGen();  // a 4
+        String e1 = this.id1.codeGen(); // 4
+        String e2 = this.id2.codeGen(); // a 4
         String pope1 = Codegen.popStack("$t1"); // t1 = a 
         String pope2 = Codegen.popStack("$t0"); // t0 = 4
 
@@ -476,18 +480,48 @@ class WhileStmt extends Statement {
 
     Expr e;
     Statement s;
+    String id;
 
     public WhileStmt(Expr e, Statement s) {
         this.e = e;
         this.s = s;
+        this.id = Codegen.nextId();
     }
 
     public String codeGen() {
-        String w = "while:\n" + this.e.loadValueInto("$t0") + "\nblt $t0, 1, exit\n";
+        String w = "while" + this.id + ":\n" + this.e.loadValueInto("$t0") + "\nblt $t0, 1, exit" + this.id + "\n";
         Codegen.printMips(w);
         this.s.codeGen();
-        String w2 = "\nj while\n" + "exit: ";
+        String w2 = "\nj while" + this.id + "\n" + "exit" + this.id + ": ";
         Codegen.printMips(w2);
+        return "";
+    }
+
+    public String getName() {
+        return "";
+    }
+}
+
+class IfStmt extends Statement {
+
+    Expr e;
+    Statement s;
+    String id;
+
+    public IfStmt(Expr e, Statement s) {
+        this.e = e;
+        this.s = s;
+        this.id = Codegen.nextId();
+    }
+
+    public String codeGen() {
+        String lev = this.e.loadValueInto("$t0");
+        String cond = "beq $t0, $zero, next" + this.id + "\n";
+        String ifTrue = "true" + this.id + ":\n ";
+        Codegen.printMips(lev + cond + ifTrue);
+        this.s.codeGen();
+        String ifFalse = "next" + this.id + ":\n";
+        Codegen.printMips(ifFalse);
         return "";
     }
 

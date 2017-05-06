@@ -108,6 +108,16 @@ return new Symbol(sym.EOF);
             return S;
           }
 
+"if"       { Symbol S = new Symbol(sym.IF, new TokenVal(yyline+1, CharNum.num));
+            CharNum.num++;
+            return S;
+          }
+
+"then"       { Symbol S = new Symbol(sym.THEN, new TokenVal(yyline+1, CharNum.num));
+            CharNum.num++;
+            return S;
+          }
+
 "="       { Symbol S = new Symbol(sym.EQ, new TokenVal(yyline+1, CharNum.num));
             CharNum.num++;
             return S;
