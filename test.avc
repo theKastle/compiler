@@ -1,7 +1,7 @@
 begin
     a = 2;
     b = 5;
-    a = (a + 2) / 3 - 5 / (b + (1 - b));
+    a = (a % 3) * 2 + b;
     write a;
     write b;
 end

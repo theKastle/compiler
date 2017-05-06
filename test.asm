@@ -12,17 +12,6 @@ lw $t7, a
 addi $sp, $sp, -4  
 sw $t7, 0($sp)
 
-addi $t7, $zero, 2
-addi $sp, $sp, -4  
-sw $t7, 0($sp)
-lw $t1, 0($sp) 
- addi $sp, $sp, 4
-lw $t0, 0($sp) 
- addi $sp, $sp, 4
-add $t2, $t0, $t1 
-addi $sp, $sp, -4  
-sw $t2, 0($sp)
-
 addi $t7, $zero, 3
 addi $sp, $sp, -4  
 sw $t7, 0($sp)
@@ -30,51 +19,30 @@ lw $t1, 0($sp)
  addi $sp, $sp, 4
 lw $t0, 0($sp) 
  addi $sp, $sp, 4
-div $t2, $t0, $t1 
+div $t0, $t1
+ mfhi $t2
 addi $sp, $sp, -4  
 sw $t2, 0($sp)
 
-addi $t7, $zero, 5
-addi $sp, $sp, -4  
-sw $t7, 0($sp)
-
-lw $t7, b
-addi $sp, $sp, -4  
-sw $t7, 0($sp)
-
-addi $t7, $zero, 1
-addi $sp, $sp, -4  
-sw $t7, 0($sp)
-
-lw $t7, b
+addi $t7, $zero, 2
 addi $sp, $sp, -4  
 sw $t7, 0($sp)
 lw $t1, 0($sp) 
  addi $sp, $sp, 4
 lw $t0, 0($sp) 
  addi $sp, $sp, 4
-sub $t2, $t0, $t1 
+mul $t2, $t0, $t1 
 addi $sp, $sp, -4  
 sw $t2, 0($sp)
+
+lw $t7, b
+addi $sp, $sp, -4  
+sw $t7, 0($sp)
 lw $t1, 0($sp) 
  addi $sp, $sp, 4
 lw $t0, 0($sp) 
  addi $sp, $sp, 4
 add $t2, $t0, $t1 
-addi $sp, $sp, -4  
-sw $t2, 0($sp)
-lw $t1, 0($sp) 
- addi $sp, $sp, 4
-lw $t0, 0($sp) 
- addi $sp, $sp, 4
-div $t2, $t0, $t1 
-addi $sp, $sp, -4  
-sw $t2, 0($sp)
-lw $t1, 0($sp) 
- addi $sp, $sp, 4
-lw $t0, 0($sp) 
- addi $sp, $sp, 4
-sub $t2, $t0, $t1 
 addi $sp, $sp, -4  
 sw $t2, 0($sp)
 lw $t2, 0($sp) 

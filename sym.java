@@ -6,6 +6,7 @@
 /** CUP generated interface containing symbol constants. */
 public interface sym {
   /* terminals */
+  public static final int MOD = 21;
   public static final int READ = 11;
   public static final int LP = 16;
   public static final int WHILE = 14;
@@ -48,7 +49,8 @@ public interface sym {
   "RP",
   "MUL",
   "ADD",
-  "DIV"
+  "DIV",
+  "MOD"
   };
 }
 

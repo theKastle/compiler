@@ -40,6 +40,7 @@ terminal                RP;
 terminal                MUL;
 terminal                ADD;
 terminal                DIV;
+terminal                MOD;
 
 /* Nonterminals
  *
@@ -140,6 +141,10 @@ term            ::= ef:f
                 | term:t DIV ef:e 
                 {:
                     RESULT = new DivExpr(t, e);
+                :}
+                | term:t MOD ef:e 
+                {:
+                    RESULT = new ModExpr(t, e);
                 :}
                 ;
 

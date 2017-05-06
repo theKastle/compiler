@@ -387,6 +387,49 @@ class DivExpr extends Term {
     }
 }
 
+class ModExpr extends Term {
+
+    String varName;
+    Expr id1;
+    Expr id2;
+
+    public ModExpr(Expr e1, Expr e2) {
+        super(e1);
+        id1 = e1;
+        if (!(e1 instanceof IntExpr)) {
+            varName = e1.getName();
+        } else if (!(e2 instanceof IntExpr)) {
+            varName = e2.getName();
+        } else {
+            varName = "$t7";
+        }
+        id2 = e2;
+    }
+
+    public String codeGen() {
+        String e1 = this.id1.codeGen();  // 4
+        String e2 = this.id2.codeGen();  // a 4
+        String pope1 = Codegen.popStack("$t1"); // t1 = a 
+        String pope2 = Codegen.popStack("$t0"); // t0 = 4
+
+        return e1 + e2 + pope1 + pope2 + "div $t0, $t1\n mfhi $t2\n" + Codegen.pushStack("$t2");
+
+        // sw $t2, "                 + this.varName;
+        // return "lw $t0, " + id1 + "\n lw $t1, " + id2 + "\n sub $t2, $t0, $t1 \n";
+    }
+
+    public String getName() {
+        return this.varName;
+    }
+
+    public String loadValueInto(String register) {
+        if (this.id1 instanceof IntExpr && this.id2 instanceof IntExpr) {
+            return "\naddi " + register + ", $t7, 0";
+        }
+        return "\nlw " + register + ", " + this.varName + "\n";
+    }
+}
+
 class IdExpr extends Expr {
     String varName;
 
