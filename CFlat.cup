@@ -38,6 +38,7 @@ terminal                DO;
 terminal                LP;
 terminal                RP;
 terminal                MUL;
+terminal                ADD;
 
 /* Nonterminals
  *
@@ -115,6 +116,11 @@ expr            ::= expr:e1 SUB term:e2
                 {:
                     System.out.println("In SUB");
                     RESULT = new SubExpr(e1, e2);
+                :}
+                | expr:e1 ADD term:e2
+                {:
+                    System.out.println("In ADD");
+                    RESULT = new AddExpr(e1, e2);
                 :}
                 | term:t 
                 {:

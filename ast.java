@@ -117,7 +117,7 @@ class Variable extends Statement {
         this.varName = id.idVal;
         System.out.println("The lhs varName  = " + this.varName);
 
-        if (!(val instanceof SubExpr || val instanceof MulExpr)) {
+        if (!(val instanceof SubExpr || val instanceof MulExpr || val instanceof AddExpr)) {
             this.varValue = val.getName();
         } else {
             this.rhs = val;
@@ -248,6 +248,45 @@ class SubExpr extends Expr {
         String pope2 = Codegen.popStack("$t0");
 
         return e1 + e2 + pope1 + pope2 + "sub $t2, $t0, $t1 \n" + Codegen.pushStack("$t2");
+    }
+
+    public String getName() {
+        return this.varName;
+    }
+
+    public String loadValueInto(String register) {
+        if (this.id1 instanceof IntExpr && this.id2 instanceof IntExpr) {
+            return "\naddi " + register + ", $t7, 0";
+        }
+        return "\nlw " + register + ", " + this.varName + "\n";
+    }
+}
+
+class AddExpr extends Expr {
+
+    String varName;
+    Expr id1;
+    Expr id2;
+
+    public AddExpr(Expr e1, Expr e2) {
+        id1 = e1;
+        if (!(e1 instanceof IntExpr)) {
+            varName = e1.getName();
+        } else if (!(e2 instanceof IntExpr)) {
+            varName = e2.getName();
+        } else {
+            varName = "$t7";
+        }
+        id2 = e2;
+    }
+
+    public String codeGen() {
+        String e1 = this.id1.codeGen();
+        String e2 = this.id2.codeGen();
+        String pope1 = Codegen.popStack("$t1");
+        String pope2 = Codegen.popStack("$t0");
+
+        return e1 + e2 + pope1 + pope2 + "add $t2, $t0, $t1 \n" + Codegen.pushStack("$t2");
     }
 
     public String getName() {

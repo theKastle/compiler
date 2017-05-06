@@ -1,10 +1,7 @@
 begin
-    read n;
-    fact = 1;
-    while n do
-    begin
-        fact = fact * n;
-        n = n - 1;
-    end
-    write fact;
+    a = 1;
+    b = 2;
+    a = (a + 2) - (b + (1 - b));
+    write a;
+    write b;
 end

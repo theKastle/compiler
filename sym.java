@@ -19,6 +19,7 @@ public interface sym {
   public static final int DO = 15;
   public static final int STRINGLITERAL = 6;
   public static final int EOF = 0;
+  public static final int ADD = 19;
   public static final int INTLITERAL = 5;
   public static final int FALSE = 3;
   public static final int error = 1;
@@ -44,7 +45,8 @@ public interface sym {
   "DO",
   "LP",
   "RP",
-  "MUL"
+  "MUL",
+  "ADD"
   };
 }
 

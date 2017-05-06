@@ -118,6 +118,11 @@ return new Symbol(sym.EOF);
             return S;
           } 
 
+"+"       { Symbol S = new Symbol(sym.ADD, new TokenVal(yyline+1, CharNum.num));
+            CharNum.num++;
+            return S;
+          }
+
 "*"       { Symbol S = new Symbol(sym.MUL, new TokenVal(yyline+1, CharNum.num));
             CharNum.num++;
             return S;
