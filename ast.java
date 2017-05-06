@@ -77,7 +77,8 @@ class Block extends Statement {
             }
             if (tmp instanceof WriteStatement) {
                 WriteStatement w = (WriteStatement) tmp;
-                Codegen.printVar(w.getName());
+                tmp.codeGen();
+                // Codegen.printVar(w.getName());
             }
             if (tmp instanceof Variable) {
                 Variable v = (Variable) tmp;
@@ -147,6 +148,7 @@ class Variable extends Statement {
 
 class WriteStatement extends Statement {
     private String id;
+    private Expr e;
 
     public String getName() {
         return id;
@@ -154,11 +156,17 @@ class WriteStatement extends Statement {
 
     public WriteStatement(Expr id) {
         this.id = id.getName();
-        Codegen.addVar(this.id);
+        this.e = id;
+        // if (this.e instanceof IdExpr) {
+        //     Codegen.addVar(this.id);
+        // }
     }
 
     public String codeGen() {
-        Codegen.printVar(id);
+        String executeExpr = this.e.codeGen();
+        String popVal = Codegen.popStack("$t0");
+        String print = Codegen.printExpr("$t0");
+        Codegen.printMips(executeExpr + popVal + print);
         return "";
     }
 }

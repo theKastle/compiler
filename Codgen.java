@@ -3,6 +3,8 @@ import java.util.*;
 import java.util.HashMap;
 import java.util.Map;
 
+import jdk.nashorn.internal.runtime.regexp.joni.ast.StringNode;
+
 
 class Codegen {
     public static PrintWriter p = null;
@@ -39,6 +41,11 @@ class Codegen {
 
     public static void printVar(String varName) {
         p.print("\n li $v0, 1 \n lw $a0, " + varName + " \n syscall \n");
+    }
+
+    public static String printExpr(String register) {
+        return "\nli $v0, 1\n add $a0, $zero, " + register + "\n syscall\n";
+        // p.print(w);
     }
 
     public static void readVar(String varName) {

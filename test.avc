@@ -1,17 +1,10 @@
 begin
-    a = 7;
-    b = 0;
-    c = 11;
-    i = 2;
-    while i do
+    read n;
+    fact = 1;
+    while n do
     begin
-        j = 2;
-        while j do
-        begin
-            write j;
-            j = j - 1;
-        end
-        write a;
-        i = i - 1;
+        fact = fact * n;
+        n = n - 1;
     end
+    write fact;
 end
